@@ -1,0 +1,80 @@
+import React, { useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
+import axios from "axios";
+
+export function Login() {
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+
+    async function login(event) {
+        event.preventDefault();
+        try {
+            const response = await axios.post("/api/auth/login", {
+                email: email,
+                password: password,
+            });
+
+            console.log(response.data);
+
+            if (response.data.email && response.data.token) {
+                sessionStorage.setItem('userId', response.data.userId);
+                sessionStorage.setItem('name', response.data.name);
+                sessionStorage.setItem('role', response.data.role);
+                sessionStorage.setItem('email', response.data.email);
+                sessionStorage.setItem('token', response.data.token);
+                // todo: check role and navigate to different pages
+                navigate(`/student`);
+            }
+        } catch (err) {
+            console.error(err);
+            alert(err.response.data.description);
+        }
+    }
+
+    return (
+        <div className="d-flex flex-column" style={{ minHeight: "50vh" }}>
+          <header className="header bg-secondary p-3" style={{ width: "100%", position: "fixed", top: "0", textAlign: "center" }}>
+              <p></p>
+          </header>
+          <div className="container d-flex flex-column align-items-center justify-content-center flex-grow-1">
+            <div className="card" style={{ width: "500px" }}>
+              <h3 className="card-header text-center">Login</h3>
+              <div className="card-body">
+                <form>
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input type="text" className="form-control" id="email" placeholder="Enter Email address"
+                            value={email}
+                            onChange={(event) => {
+                                setEmail(event.target.value);
+                            }}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input type="password" className="form-control" id="password" placeholder="Enter Password"
+                            value={password}
+                            onChange={(event) => {
+                                setPassword(event.target.value);
+                            }}
+                        />
+                    </div>
+                </form>
+            </div>
+            <div className="card-footer d-flex justify-content-end">
+                <Link to="/register" className="btn btn-link">I'm a new user</Link>
+                <button type="submit" className="btn btn-primary mr-2" onClick={login}>Login</button>
+            </div>
+        </div>
+      </div>
+      <footer className="footer bg-secondary p-3" style={{ width: "100%", position: "fixed", bottom: "0", textAlign: "center" }}>
+          <p>@GoTeam2024</p>
+      </footer>
+    </div>
+);
+}
+
+export default Login;

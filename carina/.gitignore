@@ -1,0 +1,5 @@
+node_modules
+build
+doctrina/src/data/demo.trace.db
+doctrina/src/data/demo.mv.db
+carina/package-lock.json

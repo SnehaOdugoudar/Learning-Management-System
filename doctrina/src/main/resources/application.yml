@@ -1,0 +1,46 @@
+server:
+  port: 5051
+  # graceful shutdown makes sure we have time to finnish any ongoing rest requests before terminating
+  # default value will be 30s before terminating
+  shutdown: graceful
+
+spring:
+  threads:
+    virtual:
+      enabled: true #To enable virtual threads in Spring Boot 3.2 we just need to set this property
+  application:
+    name: authentication
+  datasource:
+    url: jdbc:h2:file:./src/data/demo;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+    hikari.connectionTimeout: 100000
+    hikari.idleTimeout: 600000
+    hikari.maxLifetime: 1800000
+  jpa:
+    properties:
+#      hibernate.default_schema: DEFAULT
+      database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog-master.xml
+
+springdoc:
+  api-docs:
+    path: /authentication-docs
+  swagger-ui:
+    path: /authentication-docs/swagger-ui-custom.html
+
+logging.level:
+  root: INFO
+  liquibase: INFO

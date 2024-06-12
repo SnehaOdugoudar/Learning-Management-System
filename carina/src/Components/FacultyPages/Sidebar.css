@@ -1,0 +1,9 @@
+.nav-link {
+    padding: 10px; /* Padding for better click area and appearance */
+    text-decoration: none; /* Removes underline from all nav links */
+  }
+  
+  .active-link {
+    text-decoration: underline; /* Underlines the active link */
+  }
+  
