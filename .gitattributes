@@ -1,0 +1,4 @@
+*.js linguist-language=JavaScript
+*.java linguist-language=Java
+# If you want to exclude some files or folders from analysis
+/some_folder/* linguist-vendored
